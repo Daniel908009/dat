@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2025 at 11:29 AM
+-- Generation Time: Nov 20, 2025 at 07:25 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,9 @@ CREATE TABLE `flights` (
 INSERT INTO `flights` (`id_flight`, `id_plane`, `departure_place`, `arrival_place`, `departure_date`, `departure_time`, `arrival_date`, `arrival_time`) VALUES
 (1, 1, 'Praha', 'Londýn', '2025-01-10', '10:30:00', '2025-01-10', '12:00:00'),
 (2, 2, 'Praha', 'Paříž', '2025-02-12', '14:00:00', '2025-02-12', '16:00:00'),
-(3, 3, 'Brno', 'New York', '2025-03-05', '09:00:00', '2025-03-05', '18:00:00');
+(3, 3, 'Brno', 'New York', '2025-03-05', '09:00:00', '2025-03-05', '18:00:00'),
+(4, 4, 'Ostrava', 'Amsterdam', '2025-04-10', '07:45:00', '2025-04-10', '09:20:00'),
+(5, 5, 'Praha', 'Tokyo', '2025-05-22', '13:15:00', '2025-05-23', '07:10:00');
 
 -- --------------------------------------------------------
 
@@ -68,7 +70,9 @@ CREATE TABLE `passengers` (
 INSERT INTO `passengers` (`id_passenger`, `firstname`, `lastname`, `email`, `phone_number`) VALUES
 (1, 'Jan', 'Novák', 'jan.novak@email.cz', 777111222),
 (2, 'Petr', 'Svoboda', 'petr.svoboda@email.cz', 608333444),
-(3, 'Lucie', 'Dvořáková', 'lucie.dvorakova@email.cz', 721555666);
+(3, 'Lucie', 'Dvořáková', 'lucie.dvorakova@email.cz', 721555666),
+(4, 'Martin', 'Kouřil', 'martin.kouril@email.cz', 604789321),
+(5, 'Eva', 'Králová', 'eva.kralova@email.cz', 735112233);
 
 -- --------------------------------------------------------
 
@@ -89,7 +93,9 @@ CREATE TABLE `planes` (
 INSERT INTO `planes` (`id_plane`, `type`, `capacity`) VALUES
 (1, 'Boeing 737', 180),
 (2, 'Airbus A320', 150),
-(3, 'Boeing 777', 396);
+(3, 'Boeing 777', 396),
+(4, 'Embraer E190', 100),
+(5, 'Airbus A380', 520);
 
 -- --------------------------------------------------------
 
@@ -112,7 +118,9 @@ CREATE TABLE `reservations` (
 INSERT INTO `reservations` (`id_reservation`, `state`, `passenger`, `flight`, `seat`) VALUES
 (1, 'confirmed', 1, 1, 1),
 (2, 'pending', 2, 1, 2),
-(3, 'cancelled', 3, 2, 5);
+(3, 'cancelled', 3, 2, 5),
+(4, 'confirmed', 4, 4, 10),
+(5, 'pending', 5, 5, 12);
 
 -- --------------------------------------------------------
 
@@ -136,7 +144,15 @@ INSERT INTO `seats` (`id_seat`, `plane`, `class`) VALUES
 (3, 1, 'business'),
 (4, 2, 'economy'),
 (5, 2, 'first'),
-(6, 3, 'economy');
+(6, 3, 'economy'),
+(7, 1, 'economy'),
+(8, 2, 'business'),
+(9, 3, 'first'),
+(10, 4, 'economy'),
+(11, 4, 'business'),
+(12, 5, 'economy'),
+(13, 5, 'business'),
+(14, 5, 'first');
 
 --
 -- Indexes for dumped tables
@@ -185,31 +201,31 @@ ALTER TABLE `seats`
 -- AUTO_INCREMENT for table `flights`
 --
 ALTER TABLE `flights`
-  MODIFY `id_flight` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_flight` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `passengers`
 --
 ALTER TABLE `passengers`
-  MODIFY `id_passenger` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_passenger` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `planes`
 --
 ALTER TABLE `planes`
-  MODIFY `id_plane` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_plane` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id_reservation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_reservation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `seats`
 --
 ALTER TABLE `seats`
-  MODIFY `id_seat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_seat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
