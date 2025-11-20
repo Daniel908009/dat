@@ -1,0 +1,241 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Nov 17, 2025 at 11:29 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `reservations`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `flights`
+--
+
+CREATE TABLE `flights` (
+  `id_flight` int(11) NOT NULL,
+  `id_plane` int(11) NOT NULL,
+  `departure_place` varchar(100) NOT NULL,
+  `arrival_place` varchar(100) NOT NULL,
+  `departure_date` date NOT NULL,
+  `departure_time` time NOT NULL,
+  `arrival_date` date NOT NULL,
+  `arrival_time` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `flights`
+--
+
+INSERT INTO `flights` (`id_flight`, `id_plane`, `departure_place`, `arrival_place`, `departure_date`, `departure_time`, `arrival_date`, `arrival_time`) VALUES
+(1, 1, 'Praha', 'Londýn', '2025-01-10', '10:30:00', '2025-01-10', '12:00:00'),
+(2, 2, 'Praha', 'Paříž', '2025-02-12', '14:00:00', '2025-02-12', '16:00:00'),
+(3, 3, 'Brno', 'New York', '2025-03-05', '09:00:00', '2025-03-05', '18:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `passengers`
+--
+
+CREATE TABLE `passengers` (
+  `id_passenger` int(11) NOT NULL,
+  `firstname` varchar(70) NOT NULL,
+  `lastname` varchar(70) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `phone_number` int(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `passengers`
+--
+
+INSERT INTO `passengers` (`id_passenger`, `firstname`, `lastname`, `email`, `phone_number`) VALUES
+(1, 'Jan', 'Novák', 'jan.novak@email.cz', 777111222),
+(2, 'Petr', 'Svoboda', 'petr.svoboda@email.cz', 608333444),
+(3, 'Lucie', 'Dvořáková', 'lucie.dvorakova@email.cz', 721555666);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `planes`
+--
+
+CREATE TABLE `planes` (
+  `id_plane` int(11) NOT NULL,
+  `type` varchar(100) NOT NULL,
+  `capacity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `planes`
+--
+
+INSERT INTO `planes` (`id_plane`, `type`, `capacity`) VALUES
+(1, 'Boeing 737', 180),
+(2, 'Airbus A320', 150),
+(3, 'Boeing 777', 396);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reservations`
+--
+
+CREATE TABLE `reservations` (
+  `id_reservation` int(11) NOT NULL,
+  `state` enum('confirmed','cancelled','pending') NOT NULL,
+  `passenger` int(11) NOT NULL,
+  `flight` int(11) NOT NULL,
+  `seat` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reservations`
+--
+
+INSERT INTO `reservations` (`id_reservation`, `state`, `passenger`, `flight`, `seat`) VALUES
+(1, 'confirmed', 1, 1, 1),
+(2, 'pending', 2, 1, 2),
+(3, 'cancelled', 3, 2, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `seats`
+--
+
+CREATE TABLE `seats` (
+  `id_seat` int(11) NOT NULL,
+  `plane` int(11) NOT NULL,
+  `class` enum('economy','business','first') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `seats`
+--
+
+INSERT INTO `seats` (`id_seat`, `plane`, `class`) VALUES
+(1, 1, 'economy'),
+(2, 1, 'economy'),
+(3, 1, 'business'),
+(4, 2, 'economy'),
+(5, 2, 'first'),
+(6, 3, 'economy');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `flights`
+--
+ALTER TABLE `flights`
+  ADD PRIMARY KEY (`id_flight`),
+  ADD KEY `flights_ibfk_1` (`id_plane`);
+
+--
+-- Indexes for table `passengers`
+--
+ALTER TABLE `passengers`
+  ADD PRIMARY KEY (`id_passenger`);
+
+--
+-- Indexes for table `planes`
+--
+ALTER TABLE `planes`
+  ADD PRIMARY KEY (`id_plane`);
+
+--
+-- Indexes for table `reservations`
+--
+ALTER TABLE `reservations`
+  ADD PRIMARY KEY (`id_reservation`),
+  ADD KEY `reservations_ibfk_1` (`passenger`),
+  ADD KEY `reservations_ibfk_2` (`flight`),
+  ADD KEY `reservations_ibfk_3` (`seat`);
+
+--
+-- Indexes for table `seats`
+--
+ALTER TABLE `seats`
+  ADD PRIMARY KEY (`id_seat`),
+  ADD KEY `seats_ibfk_1` (`plane`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `flights`
+--
+ALTER TABLE `flights`
+  MODIFY `id_flight` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `passengers`
+--
+ALTER TABLE `passengers`
+  MODIFY `id_passenger` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `planes`
+--
+ALTER TABLE `planes`
+  MODIFY `id_plane` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `reservations`
+--
+ALTER TABLE `reservations`
+  MODIFY `id_reservation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `seats`
+--
+ALTER TABLE `seats`
+  MODIFY `id_seat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `flights`
+--
+ALTER TABLE `flights`
+  ADD CONSTRAINT `flights_ibfk_1` FOREIGN KEY (`id_plane`) REFERENCES `planes` (`id_plane`);
+
+--
+-- Constraints for table `reservations`
+--
+ALTER TABLE `reservations`
+  ADD CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`passenger`) REFERENCES `passengers` (`id_passenger`),
+  ADD CONSTRAINT `reservations_ibfk_2` FOREIGN KEY (`flight`) REFERENCES `flights` (`id_flight`),
+  ADD CONSTRAINT `reservations_ibfk_3` FOREIGN KEY (`seat`) REFERENCES `seats` (`id_seat`);
+
+--
+-- Constraints for table `seats`
+--
+ALTER TABLE `seats`
+  ADD CONSTRAINT `seats_ibfk_1` FOREIGN KEY (`plane`) REFERENCES `planes` (`id_plane`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
