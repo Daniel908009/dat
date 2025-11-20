@@ -22,7 +22,7 @@ uchovává informace o všech provedených rezervacích
 uchovává seznam všech sedadel v jednotlivých letadlech
 
 ## Obrázek databáze
-![ER Diagram](reservations.svg)
+<img width="1132" height="954" alt="reservations" src="https://github.com/user-attachments/assets/36d124c5-ba56-41af-ac28-d440a5e095dd" />
 
 ## Kód databáze
 ```
@@ -86,4 +86,5 @@ Ref "reservations_ibfk_2":"flights"."id_flight" < "reservations"."flight"
 Ref "reservations_ibfk_3":"seats"."id_seat" < "reservations"."seat"
 
 Ref "seats_ibfk_1":"planes"."id_plane" < "seats"."plane"
+
 ```
