@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2025 at 07:25 PM
+-- Generation Time: Nov 23, 2025 at 01:19 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -60,7 +60,7 @@ CREATE TABLE `passengers` (
   `firstname` varchar(70) NOT NULL,
   `lastname` varchar(70) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `phone_number` int(12) NOT NULL
+  `phone_number` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -68,11 +68,11 @@ CREATE TABLE `passengers` (
 --
 
 INSERT INTO `passengers` (`id_passenger`, `firstname`, `lastname`, `email`, `phone_number`) VALUES
-(1, 'Jan', 'Novák', 'jan.novak@email.cz', 777111222),
-(2, 'Petr', 'Svoboda', 'petr.svoboda@email.cz', 608333444),
-(3, 'Lucie', 'Dvořáková', 'lucie.dvorakova@email.cz', 721555666),
-(4, 'Martin', 'Kouřil', 'martin.kouril@email.cz', 604789321),
-(5, 'Eva', 'Králová', 'eva.kralova@email.cz', 735112233);
+(1, 'Jan', 'Novák', 'jan.novak@email.cz', '777111222'),
+(2, 'Petr', 'Svoboda', 'petr.svoboda@email.cz', '608333444'),
+(3, 'Lucie', 'Dvořáková', 'lucie.dvorakova@email.cz', '721555666'),
+(4, 'Martin', 'Kouřil', 'martin.kouril@email.cz', '604789321'),
+(5, 'Eva', 'Králová', 'eva.kralova@email.cz', '735112233');
 
 -- --------------------------------------------------------
 
@@ -163,19 +163,31 @@ INSERT INTO `seats` (`id_seat`, `plane`, `class`) VALUES
 --
 ALTER TABLE `flights`
   ADD PRIMARY KEY (`id_flight`),
-  ADD KEY `flights_ibfk_1` (`id_plane`);
+  ADD KEY `flights_ibfk_1` (`id_plane`),
+  ADD KEY `departure_place` (`departure_place`),
+  ADD KEY `arrival_place` (`arrival_place`),
+  ADD KEY `departure_date` (`departure_date`),
+  ADD KEY `departure_time` (`departure_time`),
+  ADD KEY `arrival_date` (`arrival_date`),
+  ADD KEY `arrival_time` (`arrival_time`);
 
 --
 -- Indexes for table `passengers`
 --
 ALTER TABLE `passengers`
-  ADD PRIMARY KEY (`id_passenger`);
+  ADD PRIMARY KEY (`id_passenger`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `phone_number` (`phone_number`),
+  ADD KEY `lastname` (`lastname`),
+  ADD KEY `firstname` (`firstname`);
 
 --
 -- Indexes for table `planes`
 --
 ALTER TABLE `planes`
-  ADD PRIMARY KEY (`id_plane`);
+  ADD PRIMARY KEY (`id_plane`),
+  ADD KEY `type` (`type`),
+  ADD KEY `capacity` (`capacity`);
 
 --
 -- Indexes for table `reservations`
@@ -184,14 +196,16 @@ ALTER TABLE `reservations`
   ADD PRIMARY KEY (`id_reservation`),
   ADD KEY `reservations_ibfk_1` (`passenger`),
   ADD KEY `reservations_ibfk_2` (`flight`),
-  ADD KEY `reservations_ibfk_3` (`seat`);
+  ADD KEY `reservations_ibfk_3` (`seat`),
+  ADD KEY `state` (`state`);
 
 --
 -- Indexes for table `seats`
 --
 ALTER TABLE `seats`
   ADD PRIMARY KEY (`id_seat`),
-  ADD KEY `seats_ibfk_1` (`plane`);
+  ADD KEY `seats_ibfk_1` (`plane`),
+  ADD KEY `class` (`class`);
 
 --
 -- AUTO_INCREMENT for dumped tables
