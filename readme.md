@@ -47,6 +47,16 @@ Table "flights" {
   "departure_time" time [not null]
   "arrival_date" date [not null]
   "arrival_time" time [not null]
+
+  Indexes {
+    (id_plane)
+    (departure_place)
+    (arrival_place)
+    (departure_date)
+    (departure_time)
+    (arrival_date)
+    (arrival_time)
+  }
 }
 
 Table "passengers" {
@@ -54,13 +64,25 @@ Table "passengers" {
   "firstname" varchar(70) [not null]
   "lastname" varchar(70) [not null]
   "email" varchar(100) [not null]
-  "phone_number" int(12) [not null]
+  "phone_number" varchar(20) [not null]
+
+  Indexes {
+    (email) [unique]
+    (phone_number) [unique]
+    (firstname)
+    (lastname)
+  }
 }
 
 Table "planes" {
   "id_plane" int(11) [pk, not null]
   "type" varchar(100) [not null]
   "capacity" int(11) [not null]
+
+  Indexes {
+    (type)
+    (capacity)
+  }
 }
 
 Table "reservations" {
@@ -69,12 +91,24 @@ Table "reservations" {
   "passenger" int(11) [not null]
   "flight" int(11) [not null]
   "seat" int(11) [not null]
+
+  Indexes {
+    (passenger)
+    (flight)
+    (seat)
+    (state)
+  }
 }
 
 Table "seats" {
   "id_seat" int(11) [pk, not null]
   "plane" int(11) [not null]
   "class" seats_class_enum [not null]
+
+  Indexes {
+    (plane)
+    (class)
+  }
 }
 
 Ref "flights_ibfk_1":"planes"."id_plane" < "flights"."id_plane"
@@ -88,3 +122,4 @@ Ref "reservations_ibfk_3":"seats"."id_seat" < "reservations"."seat"
 Ref "seats_ibfk_1":"planes"."id_plane" < "seats"."plane"
 
 ```
+
